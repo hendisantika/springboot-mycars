@@ -21,7 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  * To change this template use File | Settings | File Templates.
  */
 @Configuration
-@ComponentScan("pl.kolata")
+@ComponentScan("com.hendisantika")
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
