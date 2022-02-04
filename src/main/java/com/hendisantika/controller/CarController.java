@@ -7,11 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.Locale;
 
@@ -84,5 +87,29 @@ public class CarController {
 
         model.addAttribute("carRegistrationForm", new CarRegistrationForm());
         return USERS_CARS_PAGE_NAME;
+    }
+
+    /**
+     * Method called when user adds new car to db
+     *
+     * @param carRegistrationForm car's brand and model
+     * @param bindingResult       forms validation result
+     * @param model               View model
+     * @return page with users cars
+     */
+    @PostMapping(value = "/car/add")
+    public String addCarToDb(@Valid CarRegistrationForm carRegistrationForm,
+                             BindingResult bindingResult,
+                             Model model) {
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("error", true);
+            return USERS_CARS_PAGE_NAME;
+        }
+
+        model.addAttribute("error", false);
+        addCarToDb(carRegistrationForm);
+
+        return "redirect:/profile/cars";
     }
 }
