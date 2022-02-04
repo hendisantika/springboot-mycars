@@ -66,4 +66,17 @@ public class StatisticsController {
 
         return STATISTICS_PAGE_NAME;
     }
+
+    /**
+     * Method responsible for calcuating statistics for given car
+     *
+     * @param car      car which statistics will be calculated
+     * @param fuelCost cost in PLN from user
+     */
+    private void calculateStatisticsForOneCar(Car car, Float fuelCost) {
+        serviceCost = noteRepository.sumCarServiceCost(car.getId());
+        partsCost = noteRepository.sumCarPartsCost(car.getId());
+        distanceCost = ((car.getMileage() / 100) * fuelCost * car.getCarDetails().getAverageConsumption());
+        totalCost = calculateTotalCost(serviceCost, partsCost, distanceCost, car.getCarDetails().getPrice());
+    }
 }
