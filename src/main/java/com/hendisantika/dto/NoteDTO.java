@@ -1,5 +1,6 @@
 package com.hendisantika.dto;
 
+import com.hendisantika.entity.Note;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -38,4 +39,13 @@ public class NoteDTO {
     @DecimalMin(value = "0")
     @NotNull
     private Long serviceCost;
+
+    public NoteDTO(Note note) {
+        this.id = note.getId();
+        this.date = note.getDate();
+        this.description = new String(note.getNoteContent());
+        this.partsCost = note.getPartsCost();
+        this.serviceCost = note.getServiceCost();
+        this.title = note.getTitle();
+    }
 }

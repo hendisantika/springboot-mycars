@@ -1,5 +1,6 @@
 package com.hendisantika.entity;
 
+import com.hendisantika.dto.NoteDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -42,4 +43,13 @@ public class Note {
     @ManyToOne
     @JoinColumn(name = "CAR_ID")
     private Car owner;
+
+    public void setNoteValuesFromForm(NoteDTO form) {
+        this.date = form.getDate();
+        this.noteContent = form.getDescription().getBytes();
+        this.serviceCost = form.getServiceCost();
+        this.partsCost = form.getPartsCost();
+        this.title = form.getTitle();
+    }
+
 }

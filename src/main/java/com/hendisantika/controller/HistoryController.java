@@ -136,4 +136,20 @@ class HistoryController {
 
         return notes;
     }
+
+    /**
+     * Method delete note from db under given index
+     *
+     * @param noteIndex index of note in car's notes list
+     */
+    private void deleteNoteFromDb(String noteIndex) {
+
+        Note note = car.getNotes().get(Integer.valueOf(noteIndex));
+
+        car.getNotes().remove(note);
+        carRepository.saveAndFlush(car);
+        carRepository.flush();
+
+        noteRepository.delete(note);
+    }
 }
