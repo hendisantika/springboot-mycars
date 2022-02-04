@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -116,5 +118,22 @@ class HistoryController {
 
         car.getNotes().add(note);
         carRepository.saveAndFlush(car);
+    }
+
+    /**
+     * Method is parsing Note objects from db and preparing them to display on page
+     * It converts text in byte[] form to String
+     *
+     * @param carNotes history notes from db
+     * @return set of notes but in different class
+     */
+    private List<NoteDTO> prepareNotesToDisplayOnPage(List<Note> carNotes) {
+        List<NoteDTO> notes = new ArrayList<>();
+
+        for (Note note : carNotes) {
+            notes.add(new NoteDTO(note));
+        }
+
+        return notes;
     }
 }
