@@ -2,6 +2,7 @@ package com.hendisantika.controller;
 
 import com.hendisantika.dto.CarRegistrationForm;
 import com.hendisantika.entity.Car;
+import com.hendisantika.entity.FuelType;
 import com.hendisantika.repository.CarRepository;
 import com.hendisantika.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -209,6 +210,11 @@ public class CarController {
     @PostMapping(value = "/car/{id}", params = {"statistics"})
     public String showCarStatistics(@PathVariable(name = "id") String id) {
         return "redirect:/profile/cars/car/" + id + "/statistics";
+    }
+
+    @ModelAttribute(name = "fuelTypes")
+    public FuelType[] fuelTypes() {
+        return FuelType.values();
     }
 
 }
