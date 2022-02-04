@@ -1,10 +1,13 @@
 package com.hendisantika.controller;
 
+import com.hendisantika.dto.ProfileForm;
 import com.hendisantika.repository.AuthorityRepository;
 import com.hendisantika.repository.UserRepository;
 import com.hendisantika.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -32,5 +35,17 @@ public class RegisterController {
         this.userRepository = userRepository;
         this.userService = userService;
         this.authorityRepository = authorityRepository;
+    }
+
+    /**
+     * Called when user wants to register
+     *
+     * @param model View model
+     * @return registration page name
+     */
+    @GetMapping
+    public String showRegistrationPage(Model model) {
+        model.addAttribute("profileForm", new ProfileForm());
+        return REGISTRATION_PAGE_NAME;
     }
 }
