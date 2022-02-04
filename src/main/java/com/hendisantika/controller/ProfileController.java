@@ -12,7 +12,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.util.Locale;
@@ -86,4 +89,32 @@ public class ProfileController {
         return PROFILE_PAGE_NAME;
     }
 
+    /**
+     * Called when user will submit form and choose which image to load into db as profile image
+     *
+     * @param file               file chose by user
+     * @param redirectAttributes
+     * @param locale             current Locale
+     * @return car edition page
+     * @throws IOException if something gone wrong while reading bytes from file
+     */
+    @RequestMapping(method = RequestMethod.POST, params = {"load"})
+    public String loadProfilePicture(MultipartFile file,
+                                     RedirectAttributes redirectAttributes,
+                                     Locale locale) throws IOException {
+
+        if (file.isEmpty()) {
+            redirectAttributes.addFlashAttribute("error", messageSource.getMessage("image.file.empty", null, locale));
+            return "redirect:/profile";
+        } else if (!file.getContentType().startsWith("image")) {
+            redirectAttributes.addFlashAttribute("error", messageSource.getMessage("image.file.invalid", null, locale));
+            return "redirect:/profile";
+        }
+
+        user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        user.setProfileImage(file.getBytes());
+        userService.saveAndFlush(user);
+
+        return "redirect:/profile";
+    }
 }
