@@ -1,11 +1,14 @@
 package com.hendisantika.controller;
 
+import com.hendisantika.dto.CarRegistrationForm;
 import com.hendisantika.repository.CarRepository;
 import com.hendisantika.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -68,5 +71,18 @@ public class CarController {
         modelAndView.addObject("error", messageSource.getMessage("image.file.too.big", null, locale));
 
         return modelAndView;
+    }
+
+    /**
+     * Method is getting user's cars from db and adding them to the model
+     *
+     * @param model page model
+     * @return page with user's cars
+     */
+    @GetMapping
+    public String showUsersCars(Model model) {
+
+        model.addAttribute("carRegistrationForm", new CarRegistrationForm());
+        return USERS_CARS_PAGE_NAME;
     }
 }
