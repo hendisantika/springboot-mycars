@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en"
+      layout:decorator="layout/template"
+      xmlns:layout="http://www.ultraq.net.nz/thymelaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Car Page</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <h1 class="indigo-text center" th:text="#{car.header}">Car Details</h1>
+    <div class="row">
+        <div class="row" th:if="${hasImage}">
+            <div class="col s12 m12 l12 center red-text" th:if="${error}" th:text="${error}">Error while image loading
+            </div>
+            <div class="center-align">
+                <img class="car-image" th:src="@{/image/cars/car(id = ${car.id})}"/>
+            </div>
+        </div>
+        <div class="row">
+            <form class="col s12 m8 l8 offset-m2 offset-l2" enctype="multipart/form-data" method="post">
+                <div class="file-field input-field col s6 m4 l4">
+                    <div class="btn">
+                        <span th:text="#{profile.button.file}">File</span>
+                        <input name="file" type="file"/>
+                    </div>
+                    <div class="file-path-wrapper">
+                        <input class="file-path validate" type="text"/>
+                    </div>
+                </div>
+                <div class="col s6 m4 l4 center">
+                    <button class="btn indigo waves-effect waves-light"
+                            name="load" th:text="#{profile.button.upload}" type="submit" value="Send">
+                        <i class="mdi-content-send right"></i>
+                        Send
+                    </button>
+                </div>
+            </form>
+        </div>
+        <form class="col s12 m12 l12" method="post" th:action="@{/profile/cars/car/{id}(id=${car.id})}"
+              th:object="${car}">
+            <div class="row">
+                <div class="input-field col s12 m6 l3">
+                    <label for="brand" th:text="#{car.label.brand}">Brand</label>
+                    <input id="brand" required="required" th:errorClass="invalid" th:field="${car.brand}" type="text"/>
+                    <div class="red-text" th:errors="*{brand}">Error</div>
+                </div>
+                <div class="input-field col s12 m6 l3">
+                    <label for="model" th:text="#{car.label.model}">Model</label>
+                    <input id="model" required="required" th:errorClass="invalid" th:field="${car.model}" type="text"/>
+                    <div class="red-text" th:errors="*{model}">Error</div>
+                </div>
+                <div class="input-field col s12 m6 l3">
+                    <label for="mileage" th:text="#{car.label.mileage}">Mileage</label>
+                    <input id="mileage" th:errorClass="invalid" th:field="${car.mileage}" type="text"/>
+                    <div class="red-text" th:errors="*{mileage}">Error</div>
+                </div>
+                <div class="input-field col s12 m6 l3">
+                    <select id="fuel" th:field="${car.fuelType}">
+                        <option th:each="type : ${fuelTypes}" th:text="${type}" th:value="${type}">FuelType</option>
+                    </select>
+                    <label for="fuel" th:text="#{car.label.fueltype}">Fuel type</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12 m6 l3">
+                    <label for="insurance" th:text="#{car.label.insurance}">Insurance Date</label>
+                    <input id="insurance" th:errorClass="invalid" th:field="${car.carDetails.insuranceDate}"
+                           th:placeholder="#{detail.date.placeholder}" type="text"/>
+                    <div class="red-text" th:errors="*{carDetails.insuranceDate}">Error</div>
+                </div>
+                <div class="input-field col s12 m6 l3">
+                    <label for="service" th:text="#{car.label.service}">Service Date</label>
+                    <input id="service" th:errorClass="invalid" th:field="${car.carDetails.serviceDate}"
+                           th:placeholder="#{detail.date.placeholder}" type="text"/>
+                    <div class="red-text" th:errors="*{carDetails.serviceDate}">Error</div>
+                </div>
+                <div class="input-field col s12 m6 l3">
+                    <label for="engine" th:text="#{car.label.enginesize}">Engine size(cm3)</label>
+                    <input id="engine" th:errorClass="invalid" th:field="${car.carDetails.engineSize}" type="text"/>
+                    <div class="red-text" th:errors="*{carDetails.engineSize}">Error</div>
+                </div>
+                <div class="input-field col s12 m6 l3">
+                    <label for="hp" th:text="#{car.label.hp}">HP</label>
+                    <input id="hp" th:errorClass="invalid" th:field="${car.carDetails.horsePower}" type="text"/>
+                    <div class="red-text" th:errors="*{carDetails.horsePower}">Error</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12 m6 l3">
+                    <label for="average" th:text="#{car.label.average}">Average consumption (L)</label>
+                    <input id="average" th:errorClass="invalid" th:field="${car.carDetails.averageConsumption}"
+                           type="text"/>
+                    <div class="red-text" th:errors="*{carDetails.averageConsumption}">Error</div>
+                </div>
+                <div class="input-field col s12 m6 l3">
+                    <label for="city" th:text="#{car.label.city}">City consumption (L)</label>
+                    <input id="city" th:errorClass="invalid" th:field="${car.carDetails.cityConsumption}" type="text"/>
+                    <div class="red-text" th:errors="*{carDetails.cityConsumption}">Error</div>
+                </div>
+                <div class="input-field col s12 m6 l3">
+                    <label for="highway" th:text="#{car.label.highway}">Highway consumption (L)</label>
+                    <input id="highway" th:errorClass="invalid" th:field="${car.carDetails.highwayConsumption}"
+                           type="text"/>
+                    <div class="red-text" th:errors="*{carDetails.highwayConsumption}">Error</div>
+                </div>
+                <div class="input-field col s12 m6 l3">
+                    <label for="yearly" th:text="#{car.label.production}">Year of Production</label>
+                    <input id="yearly" th:errorClass="invalid" th:field="${car.carDetails.yearOfProduction}"
+                           type="text"/>
+                    <div class="red-text" th:errors="*{carDetails.yearOfProduction}">Error</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12 m6 l3 offset-l3">
+                    <label for="price" th:text="#{car.label.price}">Price</label>
+                    <input id="price" th:errorClass="invalid" th:field="${car.carDetails.price}" type="text"/>
+                    <div class="red-text" th:errors="*{carDetails.price}">Error</div>
+                </div>
+                <div class="input-field col s12 m6 l3">
+                    <label for="avg-distance" th:text="#{car.label.kilometersPerYear}">Price</label>
+                    <input id="avg-distance" th:errorClass="invalid" th:field="${car.carDetails.averageDistancePerYear}"
+                           type="text"/>
+                    <div class="red-text" th:errors="*{carDetails.averageDistancePerYear}">Error</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12 m12 l3 center">
+                    <button class="btn indigo waves-effect waves-light"
+                            name="save" th:text="#{detail.button.update}" type="submit">
+                        Update
+                        <i class="mdi-content-send right"></i>
+                    </button>
+                </div>
+                <div class="col s12 m12 l3 center">
+                    <button class="btn teal waves-effect waves-light"
+                            name="history" th:text="#{detail.button.History}" type="submit">
+                        Update
+                    </button>
+                </div>
+                <div class="col s12 m12 l3 center">
+                    <button class="btn teal waves-effect waves-light"
+                            name="statistics" th:text="#{detail.button.statistics}" type="submit">
+                        Statistics
+                    </button>
+                </div>
+                <div class="col s12 m12 l3 center">
+                    <button class="btn red waves-effect waves-light"
+                            name="delete" th:text="#{detail.button.delete}" type="submit">
+                        Delete
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>
