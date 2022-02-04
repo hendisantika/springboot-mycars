@@ -1,6 +1,8 @@
 package com.hendisantika.controller;
 
 import com.hendisantika.dto.ProfileForm;
+import com.hendisantika.entity.Authority;
+import com.hendisantika.entity.User;
 import com.hendisantika.repository.AuthorityRepository;
 import com.hendisantika.repository.UserRepository;
 import com.hendisantika.service.UserService;
@@ -13,6 +15,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by IntelliJ IDEA.
@@ -82,4 +86,21 @@ public class RegisterController {
         return LOGIN_PAGE_NAME;
     }
 
+    /**
+     * Method used to register a new user in db
+     *
+     * @param profileForm form from registration page
+     */
+    private void registerUserInDb(ProfileForm profileForm) {
+        User user = new User();
+        Authority authority = authorityRepository.findByAuthority("USER");
+
+        Set<Authority> authorities = new HashSet<>();
+        authorities.add(authority);
+
+        user.setAuthorities(authorities);
+        user.updateProfileFromProfileForm(profileForm);
+
+        userService.saveAndFlush(user);
+    }
 }
