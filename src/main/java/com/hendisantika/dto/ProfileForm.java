@@ -1,5 +1,6 @@
 package com.hendisantika.dto;
 
+import com.hendisantika.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -42,4 +43,15 @@ public class ProfileForm {
     @Email
     private String email;
     private String phone;
+
+    public static ProfileForm createProfileFormFromUser(User user) {
+        ProfileForm profileForm = new ProfileForm();
+        profileForm.login = user.getLogin();
+        profileForm.password = user.getPassword();
+        profileForm.firstName = user.getFirstName();
+        profileForm.lastName = user.getLastName();
+        profileForm.email = user.getEmail();
+        profileForm.phone = user.getPhone();
+        return profileForm;
+    }
 }
