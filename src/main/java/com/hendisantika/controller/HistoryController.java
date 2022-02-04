@@ -1,10 +1,14 @@
 package com.hendisantika.controller;
 
+import com.hendisantika.dto.NoteDTO;
 import com.hendisantika.entity.Car;
 import com.hendisantika.repository.CarRepository;
 import com.hendisantika.repository.NoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -32,5 +36,25 @@ class HistoryController {
     public HistoryController(CarRepository carRepository, NoteRepository noteRepository) {
         this.carRepository = carRepository;
         this.noteRepository = noteRepository;
+    }
+
+    /**
+     * Response for GET, method search for car and it's notes in db and passes them to the model
+     *
+     * @param id    car id
+     * @param model page model
+     * @return name of the page with car history
+     */
+    @GetMapping(value = "/{id}/history")
+    public String showCarHistory(@PathVariable(name = "id") String id,
+                                 Model model) {
+
+        car = carRepository.findById(Long.valueOf(id)).get();
+
+        model.addAttribute("notes", prepareNotesToDisplayOnPage(car.getNotes()));
+        model.addAttribute("noteDTO", new NoteDTO());
+        model.addAttribute("id", id);
+
+        return HISTORY_PAGE_NAME;
     }
 }
