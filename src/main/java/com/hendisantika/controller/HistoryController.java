@@ -2,6 +2,7 @@ package com.hendisantika.controller;
 
 import com.hendisantika.dto.NoteDTO;
 import com.hendisantika.entity.Car;
+import com.hendisantika.entity.Note;
 import com.hendisantika.repository.CarRepository;
 import com.hendisantika.repository.NoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -99,5 +100,21 @@ class HistoryController {
         deleteNoteFromDb(request.getParameter("removeIndex"));
 
         return String.format(REDIRECT_TO_HISTORY_PAGE_URL, id);
+    }
+
+    /**
+     * Method is saving a new note in db and assigning it to a current car
+     *
+     * @param form new note values from form
+     */
+    private void saveNoteInDb(NoteDTO form) {
+        Note note = new Note();
+        note.setOwner(car);
+        note.setNoteValuesFromForm(form);
+
+        noteRepository.saveAndFlush(note);
+
+        car.getNotes().add(note);
+        carRepository.saveAndFlush(car);
     }
 }
