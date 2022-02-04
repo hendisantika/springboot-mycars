@@ -227,4 +227,22 @@ public class CarController {
 
         return userInDb.getCars();
     }
+
+    /**
+     * Method used to save a new car in db and assing it to user
+     *
+     * @param carRegistrationForm new's car brand and model
+     */
+    private void addCarToDb(@Valid CarRegistrationForm carRegistrationForm) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User userInDb = userRepository.findByLogin(user.getLogin());
+
+        Car car = new Car();
+        car.setBrand(carRegistrationForm.getBrand());
+        car.setModel(carRegistrationForm.getModel());
+        carRepository.saveAndFlush(car);
+
+        userInDb.getCars().add(car);
+        userRepository.saveAndFlush(userInDb);
+    }
 }
