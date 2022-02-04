@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 /**
@@ -80,6 +81,22 @@ class HistoryController {
         }
 
         saveNoteInDb(form);
+
+        return String.format(REDIRECT_TO_HISTORY_PAGE_URL, id);
+    }
+
+    /**
+     * Method called when user will submit note removal
+     *
+     * @param id      car id
+     * @param request request
+     * @return history car page
+     */
+    @PostMapping(value = "/{id}/history", params = {"removeIndex"})
+    public String submitRemoveCarHistoryNote(@PathVariable(name = "id") String id,
+                                             HttpServletRequest request) {
+
+        deleteNoteFromDb(request.getParameter("removeIndex"));
 
         return String.format(REDIRECT_TO_HISTORY_PAGE_URL, id);
     }
