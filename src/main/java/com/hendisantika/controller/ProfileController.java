@@ -9,6 +9,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.Locale;
 
@@ -113,6 +115,27 @@ public class ProfileController {
 
         user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         user.setProfileImage(file.getBytes());
+        userService.saveAndFlush(user);
+
+        return "redirect:/profile";
+    }
+
+    /**
+     * Called when user will save profile data
+     *
+     * @param profileForm   profile data from form
+     * @param bindingResult result of form validation
+     * @return user's profile page
+     */
+    @RequestMapping(method = RequestMethod.POST, params = {"save"})
+    public String saveProfile(@Valid ProfileForm profileForm, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            return PROFILE_PAGE_NAME;
+        }
+
+        user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        user.updateProfileFromProfileForm(profileForm);
         userService.saveAndFlush(user);
 
         return "redirect:/profile";
