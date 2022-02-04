@@ -205,4 +205,10 @@ public class CarController {
     public String showCarHistory(@PathVariable(name = "id") String id) {
         return "redirect:/profile/cars/car/" + id + "/history";
     }
+
+    @PostMapping(value = "/car/{id}", params = {"statistics"})
+    public String showCarStatistics(@PathVariable(name = "id") String id) {
+        return "redirect:/profile/cars/car/" + id + "/statistics";
+    }
+
 }
