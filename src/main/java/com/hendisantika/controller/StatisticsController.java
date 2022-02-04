@@ -79,4 +79,18 @@ public class StatisticsController {
         distanceCost = ((car.getMileage() / 100) * fuelCost * car.getCarDetails().getAverageConsumption());
         totalCost = calculateTotalCost(serviceCost, partsCost, distanceCost, car.getCarDetails().getPrice());
     }
+
+    private Float calculateTotalCost(Float serviceCost, Float partsCost, Float distanceCost, Long price) {
+        Float totalCost = 0f;
+
+        if (serviceCost != null) {
+            totalCost += serviceCost;
+        }
+
+        if (partsCost != null) {
+            totalCost += partsCost;
+        }
+
+        return (totalCost + distanceCost + price);
+    }
 }
