@@ -10,7 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.io.IOException;
@@ -127,5 +129,36 @@ public class CarController {
         model.addAttribute("hasImage", car.getCarImage() != null);
 
         return CAR_DETAILS_PAGE_NAME;
+    }
+
+    /**
+     * Called when user will submit form and choose which image to load into db as car image
+     *
+     * @param id                 currently edited car id
+     * @param file               file chose by user
+     * @param redirectAttributes
+     * @param locale             current Locale
+     * @return car edition page
+     * @throws IOException if something gone wrong while reading bytes from file
+     */
+    @PostMapping(value = "/car/{id}", params = {"load"})
+    public String loadCarPicture(@PathVariable(name = "id") String id,
+                                 MultipartFile file,
+                                 RedirectAttributes redirectAttributes, Locale locale) throws IOException {
+
+        if (file.isEmpty()) {
+            redirectAttributes.addFlashAttribute("error", messageSource.getMessage("image.file.empty", null, locale));
+            return String.format(REDIRECT_TO_CAR_PAGE_URL, id);
+        } else if (!file.getContentType().startsWith("image")) {
+            redirectAttributes.addFlashAttribute("error", messageSource.getMessage("image.file.invalid", null, locale));
+            return String.format(REDIRECT_TO_CAR_PAGE_URL, id);
+        }
+
+        Car car = carRepository.findById(Long.valueOf(id)).get();
+        car.setCarImage(file.getBytes());
+
+        carRepository.saveAndFlush(car);
+
+        return String.format(REDIRECT_TO_CAR_PAGE_URL, id);
     }
 }
