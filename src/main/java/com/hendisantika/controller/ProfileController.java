@@ -53,4 +53,16 @@ public class ProfileController {
         return modelAndView;
     }
 
+    /**
+     * Called if any error connected with image file will occure
+     *
+     * @param locale current Locale
+     * @return cars page model
+     */
+    @RequestMapping("/uploadError")
+    public ModelAndView handleUploadError(Locale locale) {
+        ModelAndView modelAndView = new ModelAndView("/profile");
+        modelAndView.addObject("error", messageSource.getMessage("image.file.too.big", null, locale));
+        return modelAndView;
+    }
 }
