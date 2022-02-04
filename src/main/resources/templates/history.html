@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en"
+      layout:decorator="layout/template"
+      xmlns:layout="http://www.ultraq.net.nz/thymelaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>History</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <h1 class="indigo-text center" th:text="#{history.header}">History</h1>
+    <form method="post" th:action="@{/profile/cars/car/{id}/history(id=${id})}" th:object="${noteDTO}">
+        <div class="row">
+            <div class="input-field col s12 m12 l4 offset-l2">
+                <input class="validate" id="date" th:errorClass="invalid" th:field="${noteDTO.date}"
+                       th:placeholder="#{history.placeholder.date}" type="text"/>
+                <label for="date" th:text="#{history.label.date}">Date :</label>
+                <div class="red-text" th:errors="*{date}">Error</div>
+            </div>
+            <div class="input-field col s12 m12 l4">
+                <input class="validate" id="title" th:errorClass="invalid" th:field="${noteDTO.title}" type="text"/>
+                <label for="title" th:text="#{history.label.title}">Title :</label>
+                <div class="red-text" th:errors="*{title}">Error</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col s12 m12 l4 offset-l2">
+                <input class="validate" id="service" th:errorClass="invalid" th:field="${noteDTO.serviceCost}"
+                       type="text"/>
+                <label for="service" th:text="#{history.label.serviceCost}">Service cost :</label>
+                <div class="red-text" th:errors="*{serviceCost}">Error</div>
+            </div>
+            <div class="input-field col s12 m12 l4">
+                <input class="validate" id="parts" th:errorClass="invalid" th:field="${noteDTO.partsCost}" type="text"/>
+                <label for="parts" th:text="#{history.label.partsCost}">Parts cost :</label>
+                <div class="red-text" th:errors="*{partsCost}">Error</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col s12 m12 l8 offset-l2">
+                <textarea class="materialize-textarea" id="title" th:errorClass="invalid"
+                          th:field="${noteDTO.description}" type="text"/>
+                <label for="title" th:text="#{history.label.description}">Name</label>
+                <div class="red-text" th:errors="*{description}">Error</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s12 m12 l8 offset-l2 center">
+                <button class="btn teal waves-effect waves-light"
+                        name="add" th:text="#{history.button}" type="submit">
+                    Add note
+                </button>
+            </div>
+        </div>
+    </form>
+    <div class="row">
+        <div class="col s12 m8 l8 offset-m2 offset-l2">
+            <form method="post" th:action="@{/profile/cars/car/{id}/history(id=${id})}">
+                <div class="collection" id="history-notes">
+                    <a class="collection-item" th:each="note,rowstat : ${notes}">
+                        <h5 th:text="|${note.title} - ${note.date}|">Title</h5>
+                        <p class="note-content" style="display: none">
+                            <br/>
+                            <span th:text="|#{history.label.serviceCost} : ${note.serviceCost} (PLN)|">Service cost : 100 (PLN)</span>
+                            <br/>
+                            <span th:text="|#{history.label.partsCost} : ${note.partsCost} (PLN)|">Parts cost : 100 (PLN)</span>
+                            <br/>
+                            <span th:text="#{history.label.description}">Description : </span>
+                            <br/>
+                            <span th:text="${note.description}">Desc</span>
+                            <br/>
+                            <button class="btn red right-align" name="removeIndex" th:text="#{history.button.remove}"
+                                    th:value="${rowstat.index}" type="submit">Usuń
+                            </button>
+                        </p>
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
