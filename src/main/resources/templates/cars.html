@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en"
+      layout:decorator="layout/template"
+      xmlns:layout="http://www.ultraq.net.nz/thymelaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Profile</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <h1 class="indigo-text center" th:text="#{cars.header}">Cars</h1>
+    <div class="row">
+        <div class="col s12 m8 l8 offset-m2 offset-l2">
+            <div class="collection">
+                <a class="collection-item" th:each="car : ${cars}" th:href="@{/profile/cars/car/{id}(id=${car.id})}"
+                   th:text="|${car.brand} ${car.model}|">Car</a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s12 m8 l8 offset-m2 offset-l2 center">
+            <p class="red-text" th:if="${error}" th:text="#{error.standard.message}">Error message</p>
+            <button class="btn indigo waves-effect waves-light" id="add-car-btn" th:text="#{cars.button.show}">
+                A new car ?
+                <i class="material-icons right">library_add</i>
+            </button>
+        </div>
+    </div>
+    <div class="row" id="add-car-div" style="display: none">
+        <form class="col s12 m8 l8 offset-m2 offset-l2" method="post" th:action="@{/profile/cars/car/add}"
+              th:object="${carRegistrationForm}">
+            <div class="col s12 m4 l4 offset-m1 offset-l1">
+                <label for="brand" th:text="#{car.label.brand}">Brand</label>
+                <input id="brand" required="required" th:errorClass="invalid" th:field="${carRegistrationForm.brand}"
+                       type="text"/>
+                <div class="red-text" th:errors="*{brand}">Error</div>
+            </div>
+            <div class="col s12 m4 l4 offset-m1 offset-l1">
+                <label for="model" th:text="#{car.label.model}">Model</label>
+                <input id="model" required="required" th:errorClass="invalid" th:field="${carRegistrationForm.model}"
+                       type="text"/>
+                <div class="red-text" th:errors="*{model}">Error</div>
+            </div>
+            <div class="row">
+                <div class="col s12 m8 l8 offset-m2 offset-l2 center">
+                    <button class="btn indigo waves-effect waves-light"
+                            th:text="#{cars.button.add}" type="submit">
+                        Add !
+                        <i class="mdi-content-send right"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>
