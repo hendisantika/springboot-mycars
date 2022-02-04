@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta content="text/html ;charset=UTF-8" http-equiv="Content-Type"/>
+    <meta content="width=device-width, initialscale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
+    <link href="/webjars/materializecss/0.96.0/css/materialize.css"
+          media="screen,projection" rel="stylesheet" type="text/css"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+    <title>Login</title>
+</head>
+<body>
+<div class="container">
+    <h1 class="indigo-text center" th:text="#{login.page}">Login Page</h1>
+    <div class="row">
+        <form action="/login" class="col s12 m12 l12" method="post" th:action="@{/login}">
+            <div class="row">
+                <div class="input-field col s10 offset-s1 m8 offset-m2 l8 offset-l2">
+                    <i class="material-icons prefix">account_circle</i>
+                    <input class="validate" id="username" name="username" type="text"/>
+                    <label for="username">Login</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s10 offset-s1 m8 offset-m2 l8 offset-l2">
+                    <i class="material-icons prefix">lock</i>
+                    <input class="validate" id="password" name="password" type="password"/>
+                    <label for="password" th:text="#{login.password}">Password</label>
+                </div>
+            </div>
+            <div th:if="${param.error}">
+                Invalid username and password.
+            </div>
+            <div th:if="${param.logout}">
+                You have been logged out.
+            </div>
+            <div class="row">
+                <div class="col col s10 offset-s1 m8 offset-m2 l8 offset-l2 center-align">
+                    <input class="btn btn-large" th:value="#{login.button}" type="submit" value="Log me in!"/>
+                </div>
+            </div>
+        </form>
+        <br/>
+        <a class="col s12 center" th:href="@{/register}" th:text="#{login.registration}">Register</a>
+    </div>
+</div>
+<script src="/webjars/jquery/2.1.4/jquery.js"></script>
+<script src="/webjars/materializecss/0.96.0/js/materialize.js"></script>
+</body>
+</html>
