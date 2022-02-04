@@ -161,4 +161,28 @@ public class CarController {
 
         return String.format(REDIRECT_TO_CAR_PAGE_URL, id);
     }
+
+    /**
+     * Called when user will submit the form and edit car data
+     *
+     * @param id            currently edited car id
+     * @param car           car data from form
+     * @param bindingResult form results
+     * @return car edition page
+     */
+    @PostMapping(value = "/car/{id}", params = {"save"})
+    public String saveCarDetails(@PathVariable(name = "id") String id,
+                                 @Valid Car car,
+                                 BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            return String.format(REDIRECT_TO_CAR_PAGE_URL, id);
+        }
+
+        car.setCarImage(carRepository.findById(Long.valueOf(car.getId())).get().getCarImage());
+        carRepository.saveAndFlush(car);
+
+        return String.format(REDIRECT_TO_CAR_PAGE_URL, id);
+    }
+
 }
