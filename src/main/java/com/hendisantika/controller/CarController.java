@@ -185,4 +185,20 @@ public class CarController {
         return String.format(REDIRECT_TO_CAR_PAGE_URL, id);
     }
 
+
+    /**
+     * Called when user will choose to delete car from db
+     *
+     * @param id currently edited car id
+     * @return page with all cars
+     */
+    @PostMapping(value = "/car/{id}", params = {"delete"})
+    public String deleteCar(@PathVariable(name = "id") String id) {
+
+        carRepository.deleteById(Long.valueOf(id));
+        carRepository.flush();
+
+        return "redirect:/profile/cars";
+    }
+
 }
