@@ -6,7 +6,12 @@ import com.hendisantika.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import java.io.IOException;
+import java.util.Locale;
 
 /**
  * Created by IntelliJ IDEA.
@@ -34,4 +39,18 @@ public class ProfileController {
         this.userRepository = userRepository;
         this.messageSource = messageSource;
     }
+
+    /**
+     * Called when IOException occurs
+     *
+     * @param locale current Locale
+     * @return cars page model
+     */
+    @ExceptionHandler(IOException.class)
+    public ModelAndView handleIOException(Locale locale) {
+        ModelAndView modelAndView = new ModelAndView("/profile");
+        modelAndView.addObject("error", messageSource.getMessage("image.io.exception", null, locale));
+        return modelAndView;
+    }
+
 }
