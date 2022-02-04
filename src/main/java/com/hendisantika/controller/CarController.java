@@ -1,6 +1,7 @@
 package com.hendisantika.controller;
 
 import com.hendisantika.dto.CarRegistrationForm;
+import com.hendisantika.entity.Car;
 import com.hendisantika.repository.CarRepository;
 import com.hendisantika.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,10 +9,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
@@ -111,5 +109,23 @@ public class CarController {
         addCarToDb(carRegistrationForm);
 
         return "redirect:/profile/cars";
+    }
+
+    /**
+     * Shows current car details page
+     *
+     * @param id    current car
+     * @param model page model
+     * @return car edition page
+     */
+    @GetMapping(value = "/car/{id}")
+    public String showCarDetails(@PathVariable(name = "id") String id,
+                                 Model model) {
+
+        Car car = carRepository.findById(Long.valueOf(id)).get();
+        model.addAttribute("car", car);
+        model.addAttribute("hasImage", car.getCarImage() != null);
+
+        return CAR_DETAILS_PAGE_NAME;
     }
 }
