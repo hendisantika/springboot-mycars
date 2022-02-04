@@ -1,12 +1,16 @@
 package com.hendisantika.controller;
 
+import com.hendisantika.dto.ProfileForm;
 import com.hendisantika.entity.User;
 import com.hendisantika.repository.UserRepository;
 import com.hendisantika.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -65,4 +69,21 @@ public class ProfileController {
         modelAndView.addObject("error", messageSource.getMessage("image.file.too.big", null, locale));
         return modelAndView;
     }
+
+    /**
+     * Called to show user profile page - adds user data to model
+     *
+     * @param model view model
+     * @return user's profile page
+     */
+    @GetMapping
+    public String showProfilePage(Model model) {
+        user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        model.addAttribute("profileForm", ProfileForm.createProfileFormFromUser(user));
+        model.addAttribute("image", user.getProfileImage() != null);
+
+        return PROFILE_PAGE_NAME;
+    }
+
 }
