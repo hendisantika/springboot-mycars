@@ -2,6 +2,7 @@ package com.hendisantika.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -23,5 +24,10 @@ public class LoginController {
     @GetMapping
     public String showLoginPage() {
         return LOGIN_PAGE_NAME;
+    }
+
+    @PostMapping
+    public String validateLogin() {
+        return "redirect:/home";
     }
 }
