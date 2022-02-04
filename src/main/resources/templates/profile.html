@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en"
+      layout:decorator="layout/template"
+      xmlns:layout="http://www.ultraq.net.nz/thymelaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Profile</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <h1 class="indigo-text center" th:text="${profileForm.login}">User</h1>
+    <div class="row" th:if="${image}">
+        <div class="col s12 m12 l12 center red-text" th:if="${error}" th:text="${error}">Error while image loading</div>
+        <div class="center-align">
+            <img class="profile-image" th:src="@{/image}"/>
+        </div>
+    </div>
+    <div class="row">
+        <form class="col s12 m8 l8 offset-m2 offset-l2" enctype="multipart/form-data" method="post">
+            <div class="file-field input-field col s6 m4 l4">
+                <div class="btn">
+                    <span th:text="#{profile.button.file}">File</span>
+                    <input name="file" type="file"/>
+                </div>
+                <div class="file-path-wrapper">
+                    <input class="file-path validate" type="text"/>
+                </div>
+            </div>
+            <div class="col s6 m4 l4 center">
+                <button class="btn indigo waves-effect waves-light"
+                        name="load" th:text="#{profile.button.upload}" type="submit" value="Send">
+                    <i class="mdi-content-send right"></i>
+                    Send
+                </button>
+            </div>
+        </form>
+    </div>
+    <h2 class="indigo-text center" th:text="#{profile.header}">Your personal data</h2>
+    <div class="row">
+        <form class="col s12 m8 l8 offset-m2 offset-l2" method="post" th:action="@{/profile}"
+              th:object="${profileForm}">
+            <div class="row">
+                <div class="input-field col s12 m6 l6">
+                    <label for="login" th:text="#{profile.label.login}">Login</label>
+                    <input id="login" required="required" th:errorClass="invalid" th:field="${profileForm.login}"
+                           type="text"/>
+                    <div class="red-text" th:errors="*{login}">Error</div>
+                </div>
+                <div class="input-field col s12 m6 l6">
+                    <label for="password" th:text="#{profile.label.password}">Password</label>
+                    <input id="password" required="required" th:errorClass="invalid" th:field="${profileForm.password}"
+                           type="password"/>
+                    <div class="red-text" th:errors="*{password}">Error</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12 m6 l6">
+                    <label for="firstName" th:text="#{profile.label.first}">firstName</label>
+                    <input id="firstName" required="required" th:errorClass="invalid"
+                           th:field="${profileForm.firstName}" type="text"/>
+                    <div class="red-text" th:errors="*{firstName}">Error</div>
+                </div>
+                <div class="input-field col s12 m6 l6">
+                    <label for="lastName" th:text="#{profile.label.last}">lastName</label>
+                    <input id="lastName" required="required" th:errorClass="invalid" th:field="${profileForm.lastName}"
+                           type="text"/>
+                    <div class="red-text" th:errors="*{lastName}">Error</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12 m6 l6">
+                    <label for="email" th:text="#{profile.label.email}">Email</label>
+                    <input id="email" th:errorClass="invalid" th:field="${profileForm.email}" type="text"/>
+                    <div class="red-text" th:errors="*{email}">Error</div>
+                </div>
+                <div class="input-field col s12 m6 l6">
+                    <label for="phone" th:text="#{profile.label.phone}">Phone</label>
+                    <input id="phone" th:field="${profileForm.phone}" type="text"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12 m8 l8 offset-m2 offset-l2 center">
+                    <button class="btn indigo waves-effect waves-light"
+                            name="save" th:text="#{profile.button.edit}" type="submit">
+                        Edit
+                        <i class="mdi-content-send right"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>
