@@ -1,10 +1,17 @@
 package com.hendisantika.config;
 
+import com.hendisantika.entity.Authority;
+import com.hendisantika.entity.Car;
+import com.hendisantika.entity.User;
 import com.hendisantika.repository.AuthorityRepository;
 import com.hendisantika.repository.CarRepository;
 import com.hendisantika.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by IntelliJ IDEA.
@@ -27,5 +34,33 @@ public class RunAtStart {
         this.userRepository = userRepository;
         this.carRepository = carRepository;
         this.authorityRepository = authorityRepository;
+    }
+
+    /**
+     * Method used to initialize application sample data
+     */
+    @PostConstruct
+    public void initialize() {
+        User user = generateSampleUser();
+        Authority authority = new Authority("USER");
+        Car car1 = generateSampleCar();
+        Car car2 = generateSampleCar2();
+
+        userRepository.saveAndFlush(user);
+        authorityRepository.saveAndFlush(authority);
+        carRepository.saveAndFlush(car1);
+        carRepository.saveAndFlush(car2);
+
+        Set<Car> cars = new HashSet<>();
+        cars.add(car1);
+        cars.add(car2);
+
+        Set<Authority> authorities = new HashSet<>();
+        authorities.add(authority);
+
+        user.setCars(cars);
+        user.setAuthorities(authorities);
+
+        userRepository.saveAndFlush(user);
     }
 }
