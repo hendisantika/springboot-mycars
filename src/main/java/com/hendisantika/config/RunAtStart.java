@@ -7,6 +7,7 @@ import com.hendisantika.repository.AuthorityRepository;
 import com.hendisantika.repository.CarRepository;
 import com.hendisantika.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -62,5 +63,16 @@ public class RunAtStart {
         user.setAuthorities(authorities);
 
         userRepository.saveAndFlush(user);
+    }
+
+    private User generateSampleUser() {
+        User user = new User();
+        user.setLogin("login");
+        user.setPassword(new BCryptPasswordEncoder().encode("1234"));
+        user.setFirstName("Uchiha");
+        user.setLastName("Sasuke");
+        user.setPhone("111-111-111");
+        user.setEmail("sasuke@mail.com");
+        return user;
     }
 }
