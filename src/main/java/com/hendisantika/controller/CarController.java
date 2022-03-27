@@ -71,7 +71,7 @@ public class CarController {
      * @param locale current Locale
      * @return cars page model
      */
-    @RequestMapping("/uploadError")
+    @GetMapping("/uploadError")
     public ModelAndView handleUploadError(Locale locale) {
 
         ModelAndView modelAndView = new ModelAndView("/profile/cars");
