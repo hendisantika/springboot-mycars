@@ -1,8 +1,6 @@
 package com.hendisantika.config;
 
-import com.hendisantika.entity.Authority;
-import com.hendisantika.entity.Car;
-import com.hendisantika.entity.User;
+import com.hendisantika.entity.*;
 import com.hendisantika.repository.AuthorityRepository;
 import com.hendisantika.repository.CarRepository;
 import com.hendisantika.repository.UserRepository;
@@ -11,7 +9,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -74,5 +75,52 @@ public class RunAtStart {
         user.setPhone("111-111-111");
         user.setEmail("sasuke@mail.com");
         return user;
+    }
+
+    private Car generateSampleCar() {
+        Car car = new Car();
+        car.setBrand("Brand");
+        car.setModel("Model");
+        car.setMileage(35000f);
+        car.setFuelType(FuelType.DIESEL);
+
+        CarDetails carDetails = new CarDetails();
+        carDetails.setAverageConsumption(6.5f);
+        carDetails.setCityConsumption(8.0f);
+        carDetails.setHighwayConsumption(6.0f);
+        carDetails.setEngineSize(1999f);
+        carDetails.setHorsePower(180l);
+        carDetails.setInsuranceDate(LocalDate.now());
+        carDetails.setServiceDate(LocalDate.now());
+        carDetails.setYearOfProduction(2015l);
+
+        List<Note> notes = new ArrayList<>();
+        notes.add(new Note("First note", LocalDate.now(), 100l, 100l, "Content first".getBytes(), car));
+        notes.add(new Note("Second note", LocalDate.now(), 200l, 200l, "Content second".getBytes(), car));
+
+        car.setCarDetails(carDetails);
+        car.setNotes(notes);
+        return car;
+    }
+
+    private Car generateSampleCar2() {
+        Car car = new Car();
+        car.setBrand("Honda");
+        car.setModel("Sedan");
+        car.setMileage(29000f);
+        car.setFuelType(FuelType.PETROL);
+
+        CarDetails carDetails = new CarDetails();
+        carDetails.setAverageConsumption(7.0f);
+        carDetails.setCityConsumption(8.0f);
+        carDetails.setHighwayConsumption(7.0f);
+        carDetails.setEngineSize(1400f);
+        carDetails.setHorsePower(140l);
+        carDetails.setInsuranceDate(LocalDate.now());
+        carDetails.setServiceDate(LocalDate.now());
+        carDetails.setYearOfProduction(2016l);
+
+        car.setCarDetails(carDetails);
+        return car;
     }
 }

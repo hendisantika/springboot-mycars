@@ -33,4 +33,9 @@ public class Authority implements GrantedAuthority {
     public String getAuthority() {
         return authority;
     }
+
+    public Authority(String authority) {
+        this.authority = authority;
+    }
+
 }

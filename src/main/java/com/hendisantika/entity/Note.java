@@ -52,4 +52,13 @@ public class Note {
         this.title = form.getTitle();
     }
 
+    public Note(String title, LocalDate date, Long serviceCost, Long partsCost, byte[] noteContent, Car owner) {
+        this.title = title;
+        this.date = date;
+        this.serviceCost = serviceCost;
+        this.partsCost = partsCost;
+        this.noteContent = noteContent;
+        this.owner = owner;
+    }
+
 }
