@@ -2,14 +2,18 @@ package com.hendisantika.config;
 
 import com.hendisantika.service.UserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 
 /**
  * Created by IntelliJ IDEA.
@@ -24,7 +28,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 @ComponentScan("com.hendisantika")
 @EnableWebSecurity
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+public class SecurityConfiguration {
 
     private final UserDetailService userDetailService;
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -34,32 +38,43 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         this.userDetailService = userDetailService;
     }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    @Bean
+    public SecurityFilterChain configure(HttpSecurity http) throws Exception {
         http
-                .authorizeRequests()
-                .antMatchers("/templates/**").permitAll()
-                .antMatchers("/static/**").permitAll()
-                .antMatchers("/webjars/**").permitAll()
-                .antMatchers("/register").permitAll()
+                .authorizeHttpRequests((req) -> req
+                                .requestMatchers("/templates/**").permitAll()
+                                .requestMatchers("/static/**").permitAll()
+                                .requestMatchers("/webjars/**").permitAll()
+                                .requestMatchers("/register").permitAll()
                 .anyRequest().authenticated()
-                .and()
-                .formLogin()
+                )
+                .formLogin(formLogin -> formLogin
                 .loginPage("/login")
                 .loginProcessingUrl("/login")
                 .defaultSuccessUrl("/home")
                 .permitAll()
-                .and()
-                .logout()
+
+                )
+                .logout(logout -> logout
                 .logoutSuccessUrl("/login")
                 .permitAll()
-                .and()
-                .csrf()
-                .disable();
+                )
+                .csrf(AbstractHttpConfigurer::disable);
+        return http.build();
     }
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    //    @Override
+//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//        auth.userDetailsService(userDetailService).passwordEncoder(passwordEncoder);
+//    }
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
+        return authConfig.getAuthenticationManager();
+    }
+
+    @Bean
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailService).passwordEncoder(passwordEncoder);
     }
+
 }

@@ -1,14 +1,19 @@
 package com.hendisantika.config;
 
-import com.hendisantika.entity.*;
+import com.hendisantika.entity.Authority;
+import com.hendisantika.entity.Car;
+import com.hendisantika.entity.CarDetails;
+import com.hendisantika.entity.FuelType;
+import com.hendisantika.entity.Note;
+import com.hendisantika.entity.User;
 import com.hendisantika.repository.AuthorityRepository;
 import com.hendisantika.repository.CarRepository;
 import com.hendisantika.repository.UserRepository;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -89,14 +94,14 @@ public class RunAtStart {
         carDetails.setCityConsumption(8.0f);
         carDetails.setHighwayConsumption(6.0f);
         carDetails.setEngineSize(1999f);
-        carDetails.setHorsePower(180l);
+        carDetails.setHorsePower(180L);
         carDetails.setInsuranceDate(LocalDate.now());
         carDetails.setServiceDate(LocalDate.now());
-        carDetails.setYearOfProduction(2015l);
+        carDetails.setYearOfProduction(2015L);
 
         List<Note> notes = new ArrayList<>();
-        notes.add(new Note("First note", LocalDate.now(), 100l, 100l, "Content first".getBytes(), car));
-        notes.add(new Note("Second note", LocalDate.now(), 200l, 200l, "Content second".getBytes(), car));
+        notes.add(new Note("First note", LocalDate.now(), 100L, 100L, "Content first".getBytes(), car));
+        notes.add(new Note("Second note", LocalDate.now(), 200L, 200L, "Content second".getBytes(), car));
 
         car.setCarDetails(carDetails);
         car.setNotes(notes);
@@ -115,10 +120,10 @@ public class RunAtStart {
         carDetails.setCityConsumption(8.0f);
         carDetails.setHighwayConsumption(7.0f);
         carDetails.setEngineSize(1400f);
-        carDetails.setHorsePower(140l);
+        carDetails.setHorsePower(140L);
         carDetails.setInsuranceDate(LocalDate.now());
         carDetails.setServiceDate(LocalDate.now());
-        carDetails.setYearOfProduction(2016l);
+        carDetails.setYearOfProduction(2016L);
 
         car.setCarDetails(carDetails);
         return car;

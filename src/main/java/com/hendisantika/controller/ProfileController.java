@@ -4,6 +4,7 @@ import com.hendisantika.dto.ProfileForm;
 import com.hendisantika.entity.User;
 import com.hendisantika.repository.UserRepository;
 import com.hendisantika.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,7 +19,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.validation.Valid;
 import java.io.IOException;
 import java.util.Locale;
 

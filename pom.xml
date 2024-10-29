@@ -45,10 +45,10 @@
             <groupId>com.mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-java8</artifactId>
-        </dependency>
+        <!--        <dependency>-->
+        <!--            <groupId>org.hibernate</groupId>-->
+        <!--            <artifactId>hibernate-java8</artifactId>-->
+        <!--        </dependency>-->
         <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-taglibs -->
         <dependency>
             <groupId>org.springframework.security</groupId>
@@ -57,7 +57,7 @@
 
         <dependency>
             <groupId>org.thymeleaf.extras</groupId>
-            <artifactId>thymeleaf-extras-springsecurity5</artifactId>
+            <artifactId>thymeleaf-extras-springsecurity6</artifactId>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.webjars/materializecss -->
         <dependency>
